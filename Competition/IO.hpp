@@ -116,12 +116,23 @@ inline void newline()
 } // namespace io
 
 namespace debug {
+inline std::ostream& endl(std::ostream& os)
+{
+    return os << std::endl;
+}
 #ifdef GXY_DEBUG
 struct cerr {
     template <typename T>
     cerr& operator<<(const T& t)
     {
         std::cerr << "\033[31m" << t << "\033[0m";
+        return *this;
+    }
+
+    // 特化处理std::ostream& (*pf)(std::ostream&)类型操作符
+    cerr& operator<<(std::ostream& (*pf)(std::ostream&))
+    {
+        std::cerr << pf;
         return *this;
     }
 };
@@ -132,12 +143,22 @@ struct cwarn {
         std::cerr << "\033[33m" << t << "\033[0m";
         return *this;
     }
+    cwarn& operator<<(std::ostream& (*pf)(std::ostream&))
+    {
+        std::cerr << pf;
+        return *this;
+    }
 };
 struct cinfo {
     template <typename T>
     cinfo& operator<<(const T& t)
     {
         std::cerr << "\033[32m" << t << "\033[0m";
+        return *this;
+    }
+    cinfo& operator<<(std::ostream& (*pf)(std::ostream&))
+    {
+        std::cerr << pf;
         return *this;
     }
 };
@@ -148,12 +169,22 @@ struct cblue {
         std::cerr << "\033[34m" << t << "\033[0m";
         return *this;
     }
+    cblue& operator<<(std::ostream& (*pf)(std::ostream&))
+    {
+        std::cerr << pf;
+        return *this;
+    }
 };
 struct cpurple {
     template <typename T>
     cpurple& operator<<(const T& t)
     {
         std::cerr << "\033[35m" << t << "\033[0m";
+        return *this;
+    }
+    cpurple& operator<<(std::ostream& (*pf)(std::ostream&))
+    {
+        std::cerr << pf;
         return *this;
     }
 };
@@ -164,12 +195,22 @@ struct cwhite {
         std::cerr << "\033[37m" << t << "\033[0m";
         return *this;
     }
+    cwhite& operator<<(std::ostream& (*pf)(std::ostream&))
+    {
+        std::cerr << pf;
+        return *this;
+    }
 };
 struct cbold {
     template <typename T>
     cbold& operator<<(const T& t)
     {
         std::cerr << "\033[1m" << t << "\033[0m";
+        return *this;
+    }
+    cbold& operator<<(std::ostream& (*pf)(std::ostream&))
+    {
+        std::cerr << pf;
         return *this;
     }
 };
@@ -180,10 +221,18 @@ struct cerr {
     {
         return *this;
     }
+    cerr& operator<<(std::ostream& (*pf)(std::ostream&))
+    {
+        return *this;
+    }
 };
 struct cwarn {
     template <typename T>
     cwarn& operator<<(const T& t)
+    {
+        return *this;
+    }
+    cwarn& operator<<(std::ostream& (*pf)(std::ostream&))
     {
         return *this;
     }
@@ -194,10 +243,18 @@ struct cinfo {
     {
         return *this;
     }
+    cinfo& operator<<(std::ostream& (*pf)(std::ostream&))
+    {
+        return *this;
+    }
 };
 struct cblue {
     template <typename T>
     cblue& operator<<(const T& t)
+    {
+        return *this;
+    }
+    cblue& operator<<(std::ostream& (*pf)(std::ostream&))
     {
         return *this;
     }
@@ -209,6 +266,10 @@ struct cpurple {
     {
         return *this;
     }
+    cpurple& operator<<(std::ostream& (*pf)(std::ostream&))
+    {
+        return *this;
+    }
 };
 
 struct cwhite {
@@ -217,11 +278,19 @@ struct cwhite {
     {
         return *this;
     }
+    cwhite& operator<<(std::ostream& (*pf)(std::ostream&))
+    {
+        return *this;
+    }
 };
 
 struct cbold {
     template <typename T>
     cbold& operator<<(const T& t)
+    {
+        return *this;
+    }
+    cbold& operator<<(std::ostream& (*pf)(std::ostream&))
     {
         return *this;
     }
