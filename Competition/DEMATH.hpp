@@ -6,6 +6,10 @@
 
 /**
  * @brief 数学库
+ *
+ * @brief 求最大公约数 gcd
+ * @brief 求积分 simpson, romberg
+ * @brief 求梯度 gradient
  */
 
 namespace demath {

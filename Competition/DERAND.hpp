@@ -9,8 +9,9 @@
  * @brief 设置随机数种子 set_seed
  * @brief 轮盘赌选择 roulette_wheel_selection
  * @brief 随机交换两个元素 swap_two_element_randomly
- * @brief levy flight步长生成 levy_flight
- *
+ * @brief levy分布 levy_flight (随机步长的运动模式)
+ * @brief beta分布 beta_distribution (比率，概率分布)
+ * 
  *
  * @example 使用示例
  * int main()
@@ -108,6 +109,45 @@ double levy_flight(double beta, double alpha)
     double levy_step = alpha * (u * sigma_u) / pow(fabs(v), 1.0 / beta);
 
     return levy_step;
+}
+
+/**
+ * @brief beta分布
+ * @attention 比率，概率分布，是一个定义在区间[0, 1]上的连续概率分布
+ *            eg. 产品不合格率，生产线的故障率，疾病的发病率等
+ */
+double beta_distribution(double alpha, double beta)
+{
+    std::gamma_distribution<double> gamma_alpha(alpha, 1.0);
+    std::gamma_distribution<double> gamma_beta(beta, 1.0);
+    double x = gamma_alpha(engine);
+    double y = gamma_beta(engine);
+    return x / (x + y);
+    /* 确定不同的alpha和beta参数下的Beta分布
+    import numpy as np
+    import matplotlib.pyplot as plt
+    from scipy.stats import beta
+
+    # 创建 x 值
+    x = np.linspace(0, 1, 1000)
+
+    # 设置不同的 alpha 和 beta 值
+    parameters = [(2, 5), (5, 2), (2, 2), (1, 1), (3, 3)]
+
+    plt.figure(figsize=(10, 6))
+
+    # 绘制不同 alpha, beta 参数下的 Beta 分布图像
+    for alpha, beta_param in parameters:
+        y = beta.pdf(x, alpha, beta_param)
+        plt.plot(x, y, label=f'α={alpha}, β={beta_param}')
+
+    plt.title('Beta Distribution for Different α and β')
+    plt.xlabel('x')
+    plt.ylabel('Density')
+    plt.legend()
+    plt.grid(True)
+    plt.show()
+    */
 }
 } // namespace derand;
 
